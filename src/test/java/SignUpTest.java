@@ -45,14 +45,4 @@ public class SignUpTest extends WebDriverSettings {
         foldingKnivesPage.chooseKnife().clickByBtn();
     }
 
-    @Test
-    public void Test() {
-//        driver.get("https://zbroia.com.ua/shop/category/nozhi-i-instrumenty/nozhi-skladnye-3879");
-//        driver.manage().window().maximize();
-//        WebElement element = driver.findElement(By.xpath("//span[text()=\"Бренды\"]"));
-//        element.click();
-//        driver.findElement(By.linkText("Ножи складные"));
-
-//        System.out.println(catalogSort.ACTION.getAction());
-    }
 }
