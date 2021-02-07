@@ -44,4 +44,10 @@ public class FoldingKnivesPage extends BasePage {
             return knivesList.get(0);
         }
     }
+
+    public ViewKnifePage chooseKnifeFromList(WebElement element) {
+        String knifeTitle = element.getText();
+        clickElement(element);
+        return new ViewKnifePage(driver, knifeTitle);
+    }
 }
