@@ -5,7 +5,9 @@ import Pages.CartPage;
 import Settings.TestConfig;
 import org.aeonbits.owner.ConfigFactory;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 
@@ -15,7 +17,6 @@ public class BaseTest {
     public ChromeDriver driver;
     public Header header;
     public Footer footer;
-//    public CatalogToolbar catalogToolbar;
     public Catalog catalog;
     public TestConfig testConfig;
     public CartPage cartPage;
@@ -26,7 +27,6 @@ public class BaseTest {
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-//        catalogToolbar = PageFactory.initElements(driver, CatalogToolbar.class);
         header = PageFactory.initElements(driver,  Header.class);
         footer =  PageFactory.initElements(driver, Footer.class);
         catalog = PageFactory.initElements(driver, Catalog.class);
@@ -37,5 +37,17 @@ public class BaseTest {
     @After
     public void closeDriver() {
 //        driver.quit();
+    }
+
+    public void login() {
+
+        driver.get(testConfig.baseUrl());
+        driver.manage().window().maximize();
+        header
+                .openSignUpDialog()
+                .inputLogin(testConfig.email())
+                .inputPassword(testConfig.password())
+                .submitLogin();
+        Assert.assertTrue(footer.isLogined());
     }
 }
