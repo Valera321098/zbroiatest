@@ -17,14 +17,11 @@ public class CartPage extends BasePage{
 
     @FindBy(xpath = "//div[@class=\"modal__header-title\"]")
     private WebElement cartTitle;
+    @Getter
     @FindBy(linkText = "Нож Mr. Blade Cosmo Green Stonewash")
     private WebElement boughtKnife;
     @FindBy(linkText = "Оформить заказ")
     private WebElement checkoutBtn;
-
-    public WebElement getBoughtKnife() {
-        return boughtKnife;
-    }
 
     public CartPage isCartPageDisplayed() {
          Assert.assertTrue(isElementDisplayed(cartTitle));
