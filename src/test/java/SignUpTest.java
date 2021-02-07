@@ -1,48 +1,56 @@
-import Moduls.Catalog;
 import Moduls.CatalogToolbar;
-import Moduls.Footer;
-import Moduls.Header;
 import Pages.FoldingKnivesPage;
+import org.junit.Assert;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
-public class SignUpTest extends WebDriverSettings {
+public class SignUpTest extends BaseTest {
 
-//    //Игорь
-//    //igor123@gmail.com
-//    //0997775533
-//    //igor1234
-//    //igor1234
-    Header header;
-    Footer footer;
-    Catalog catalog;
     FoldingKnivesPage foldingKnivesPage;
 
     @Test
     public void signUpPositiveTest() {
-        String userEmail = "igor123@gmail.com";
-        String userPassword = "igor1234";
 
-        driver.get("https://www.zbroia.com.ua");
-        header = new Header(driver);
-        footer = new Footer(driver);
+        driver.get(testConfig.baseUrl());
         driver.manage().window().maximize();
         header
                 .openSignUpDialog()
-                .inputLogin(userEmail)
-                .inputPassword(userPassword)
+                .inputLogin(testConfig.email())
+                .inputPassword(testConfig.password())
                 .submitLogin();
-        footer.isLogined();
+        Assert.assertTrue(footer.isLogined());
     }
 
     @Test
     public void chooseAndByFoldingKnife() {
-        driver.get("https://www.zbroia.com.ua");
-        driver.manage().window().maximize();
-        catalog = new Catalog(driver);
+//        driver.get(testConfig.baseUrl());
+//        driver.manage().window().maximize();
         foldingKnivesPage = catalog.chooseKnifeMenu().chooseFoldingKnives();
-        foldingKnivesPage.selectCatalogSort(CatalogToolbar.CatalogSort.PRICE_DESC);
-        foldingKnivesPage.chooseKnife().clickByBtn();
+        foldingKnivesPage.catalogToolbar.selectCatalogSort(CatalogToolbar.CatalogSort.PRICE_DESC);
+//        catalogToolbar.selectCatalogSort(CatalogToolbar.CatalogSort.PRICE_DESC);
+        foldingKnivesPage
+                .chooseKnife()
+                .clickByBtn()
+                .isCartPageDisplayed()
+                .goodsInCart(cartPage.getBoughtKnife())
+                .clickCheckout()
+                .isCheckoutPageDisplayed();
+//        cartPage.goodsInCart(cartPage.getBoughtKnife());
     }
+
+    @Test
+    public void test() {
+        signUpPositiveTest();
+        chooseAndByFoldingKnife();
+    }
+
+//    @Test
+//    public void test2() {
+//        driver.get("https://zbroia.com.ua/shop/cart");
+//        driver.manage().window().maximize();
+//        System.out.println(driver.getTitle());
+//        if (driver.getTitle().equals("Корзина")) {
+//            System.out.println("Ok!");
+//        }
+//    }
 
 }

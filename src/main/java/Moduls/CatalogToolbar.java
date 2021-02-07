@@ -1,5 +1,6 @@
 package Moduls;
 
+import Pages.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -7,10 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class CatalogToolbar {
-
-    WebDriver driver;
-    WebDriverWait wait;
+public class CatalogToolbar extends BasePage {
 
     public enum CatalogSort {
         ACTION("action"),
@@ -29,9 +27,8 @@ public class CatalogToolbar {
     }
 
     public CatalogToolbar(WebDriver driver) {
+        super(driver);
         PageFactory.initElements(driver, this);
-        wait = new WebDriverWait(driver, 20);
-        this.driver = driver;
     }
 
     @FindBy(id="catalog-sort-by")

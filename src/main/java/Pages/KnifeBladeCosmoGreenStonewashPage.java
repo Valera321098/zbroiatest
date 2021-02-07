@@ -7,15 +7,11 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class KnifeBladeCosmoGreenStonewashPage {
-
-    WebDriver driver;
-    WebDriverWait wait;
+public class KnifeBladeCosmoGreenStonewashPage extends BasePage{
 
     public KnifeBladeCosmoGreenStonewashPage(WebDriver driver) {
+        super(driver);
         PageFactory.initElements(driver, this);
-        wait = new WebDriverWait(driver, 20);
-        this.driver = driver;
     }
 
     @FindBy(xpath = "h1[text()=\"Нож Mr. Blade Cosmo Green Stonewash\"]")
@@ -23,7 +19,8 @@ public class KnifeBladeCosmoGreenStonewashPage {
     @FindBy(css = ".product-buy__btn.product-buy__btn--buy")
     private WebElement byBtn;
 
-    public void clickByBtn() {
-        wait.until(ExpectedConditions.visibilityOf(byBtn)).click();
+    public CartPage clickByBtn() {
+        clickElement(byBtn);
+        return new CartPage(driver);
     }
 }

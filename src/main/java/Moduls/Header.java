@@ -1,5 +1,6 @@
 package Moduls;
 
+import Pages.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
@@ -9,16 +10,10 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class Header {
+public class Header extends BasePage {
 
-    WebDriver driver;
-    Actions actions;
-    WebDriverWait wait;
     public Header(WebDriver driver) {
-        PageFactory.initElements(driver, this);
-        this.driver= driver;
-        actions = new Actions(driver);
-        wait = new WebDriverWait(driver, 20);
+        super(driver);
     }
 
     @FindBy(css = "a.list-nav__link[href=\"https://zbroia.com.ua\"]")
@@ -70,23 +65,22 @@ public class Header {
 
     public Header openSignUpDialog() {
         actions.moveToElement(menuInner).perform();
-        wait.until(ExpectedConditions.visibilityOf(innerItem));
-        innerItem.click();
-        return new Header(driver);
+        clickElement(innerItem);
+        return this;
     }
 
     public Header inputLogin(String userEmail) {
         emailField.sendKeys(userEmail);
-        return new Header(driver);
+        return this;
     }
 
     public Header inputPassword(String userPassword) {
         passwordField.sendKeys(userPassword);
-        return new Header(driver);
+        return this;
     }
 
     public void submitLogin() {
-        submitLoginBtn.click();
+        clickElement(submitLoginBtn);
     }
 
 //    public boolean isLogined() {
