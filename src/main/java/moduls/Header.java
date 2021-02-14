@@ -1,14 +1,9 @@
-package Moduls;
+package moduls;
 
-import Pages.BasePage;
+import pages.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Header extends BasePage {
 
@@ -62,6 +57,14 @@ public class Header extends BasePage {
     private WebElement menuCompare;
     @FindBy(xpath = "//div[@data-ajax-inject=\"cart-header\"]")
     private WebElement menuCart;
+    @FindBy(css = ".u-p-zbroia__cart-subtitle-title")
+    private WebElement numberItemInCart;
+
+    public void openCart() {
+        if (!numberItemInCart.getText().equals("0")) {
+            clickElement(menuCart);
+        }
+    }
 
     public Header openSignUpDialog() {
         actions.moveToElement(menuInner).perform();
@@ -83,9 +86,5 @@ public class Header extends BasePage {
         clickElement(submitLoginBtn);
     }
 
-//    public boolean isLogined() {
-//        wait.until(ExpectedConditions.(logoutItem));
-//        return true;
-//    }
 
 }

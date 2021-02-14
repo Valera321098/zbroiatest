@@ -1,14 +1,26 @@
-package Moduls;
+package moduls;
 
-import Pages.BasePage;
+import pages.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class CatalogToolbar extends BasePage {
+
+    public enum NumberOfItem {
+        NUMBER_12("12"),
+        NUMBER_24("24"),
+        NUMBER_48("48");
+        private String action;
+        NumberOfItem(String action) {
+            this.action = action;
+        }
+        public String getAction() {
+            return action;
+        }
+    }
 
     public enum CatalogSort {
         ACTION("action"),
@@ -35,10 +47,15 @@ public class CatalogToolbar extends BasePage {
     private WebElement catalogSortBy;
 
     @FindBy(id="catalog-per-page")
-    private WebElement catalogPerPage;
+    private WebElement catalogNumberOfItemPerPage;
 
     public void selectCatalogSort(CatalogSort catalogSort) {
         Select select = new Select(catalogSortBy);
         select.selectByValue(catalogSort.getAction());
+    }
+
+    public void selectNumberOfItemPerPage(NumberOfItem numbrOfItem) {
+        Select select = new Select(catalogNumberOfItemPerPage);
+        select.selectByValue(numbrOfItem.getAction());
     }
 }

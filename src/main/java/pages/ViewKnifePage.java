@@ -1,4 +1,4 @@
-package Pages;
+package pages;
 
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
@@ -17,6 +17,13 @@ public class ViewKnifePage extends BasePage {
     String knifeTitle;
     @FindBy(xpath = "//h1[@class=\"content__title\"]")
     private WebElement pageTitle;
+    @FindBy(css = ".product-buy__btn.product-buy__btn--buy")
+    private WebElement byBtn;
+
+    public CartWindow clickBuyBtn() {
+        clickElement(byBtn);
+        return new CartWindow(driver);
+    }
 
     public ViewKnifePage checkoutKnife() {
         Assert.assertEquals(knifeTitle, pageTitle.getText());

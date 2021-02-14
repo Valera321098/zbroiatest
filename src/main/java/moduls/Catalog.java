@@ -1,11 +1,10 @@
-package Moduls;
+package moduls;
 
-import Pages.BasePage;
-import Pages.FoldingKnivesPage;
+import pages.BasePage;
+import pages.FoldingKnivesPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 public class Catalog extends BasePage {
 

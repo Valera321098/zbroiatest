@@ -1,13 +1,12 @@
-import Moduls.Catalog;
-import Moduls.Footer;
-import Moduls.Header;
-import Pages.CartPage;
-import Settings.TestConfig;
+import moduls.Catalog;
+import moduls.Footer;
+import moduls.Header;
+import pages.CartWindow;
+import settings.TestConfig;
 import org.aeonbits.owner.ConfigFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 
@@ -19,7 +18,7 @@ public class BaseTest {
     public Footer footer;
     public Catalog catalog;
     public TestConfig testConfig;
-    public CartPage cartPage;
+    public CartWindow cartWindow;
 
     @Before
     public void setupDriver() {
@@ -30,7 +29,7 @@ public class BaseTest {
         header = PageFactory.initElements(driver,  Header.class);
         footer =  PageFactory.initElements(driver, Footer.class);
         catalog = PageFactory.initElements(driver, Catalog.class);
-        cartPage =PageFactory.initElements(driver, CartPage.class);
+        cartWindow =PageFactory.initElements(driver, CartWindow.class);
         testConfig = ConfigFactory.create(TestConfig.class);
     }
 

@@ -1,14 +1,9 @@
-package Pages;
+package pages;
 
-import Moduls.Catalog;
-import Moduls.CatalogToolbar;
-import Moduls.Footer;
-import Moduls.Header;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
