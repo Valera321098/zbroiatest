@@ -38,7 +38,7 @@ public class BaseTest {
 //        driver.quit();
     }
 
-    public void login() {
+    public BaseTest login() {
 
         driver.get(testConfig.baseUrl());
         driver.manage().window().maximize();
@@ -48,5 +48,13 @@ public class BaseTest {
                 .inputPassword(testConfig.password())
                 .submitLogin();
         Assert.assertTrue(footer.isLogined());
+        return this;
     }
+
+    public void goToFoldingKnives() {
+        driver.get("https://zbroia.com.ua/shop/category/nozhi-i-instrumenty/nozhi-skladnye-3879");
+        driver.manage().window().maximize();
+        Assert.assertEquals("Складные ножи — Интернет-магазин ZBROIA", driver.getTitle());
+    }
+
 }

@@ -1,4 +1,5 @@
 import entities.KnifeTile;
+import io.qameta.allure.Description;
 import moduls.CatalogToolbar;
 import pages.FoldingKnivesPage;
 import org.junit.Assert;
@@ -6,15 +7,17 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class KnivesTest extends BaseTest {
 
     @Test
-    public void chooseAndByFoldingKnife() {
+    @Description (value = "The test login, buys knife 'Mr. Blade Cosmo Green Stonewash' and check that it is in the cart")
+    public void chooseAndBuyFoldingKnife() {
         FoldingKnivesPage foldingKnivesPage = new FoldingKnivesPage(driver);
-//        driver.get(testConfig.baseUrl());
-//        driver.manage().window().maximize();
+
         login();
+
         foldingKnivesPage = catalog.chooseKnifeMenu().chooseFoldingKnives();
         foldingKnivesPage.catalogToolbar.selectCatalogSort(CatalogToolbar.CatalogSort.PRICE_DESC);
         foldingKnivesPage
@@ -27,16 +30,15 @@ public class KnivesTest extends BaseTest {
     }
 
     @Test
-    public void boughtKnifeFromList() {
+    @Description (value = "The test buys one random knife from list and verifies that it is in the cart")
+    public void buySingleKnife() {
         FoldingKnivesPage foldingKnivesPage = new FoldingKnivesPage(driver);
         List<String> list = new ArrayList<>();
 
-        driver.get("https://zbroia.com.ua/shop/category/nozhi-i-instrumenty/nozhi-skladnye-3879");
-        driver.manage().window().maximize();
-        Assert.assertEquals("Складные ножи — Интернет-магазин ZBROIA", driver.getTitle());
+        goToFoldingKnives();
 
-        foldingKnivesPage.catalogToolbar.selectNumberOfItemPerPage(CatalogToolbar.NumberOfItem.NUMBER_48);
-        KnifeTile knife = foldingKnivesPage.getKnife();
+        foldingKnivesPage.catalogToolbar.selectNumberOfItemPerPage(CatalogToolbar.NumberOfItem.NUMBER_12);
+        KnifeTile knife = foldingKnivesPage.getRandomKnife();
         foldingKnivesPage
                 .chooseKnifeFromList(knife)
                 .checkoutKnife()
@@ -45,19 +47,21 @@ public class KnivesTest extends BaseTest {
     }
 
     @Test
-    public void buySomeKnives() {
+    @Description (value = "The test buys several random knives from list and verifies that its are in the cart")
+    public void buySeveralKnives() {
 
         FoldingKnivesPage foldingKnivesPage = new FoldingKnivesPage(driver);
         List<String> shoppingList = new ArrayList<>();
         KnifeTile knife;
+        Random random = new Random();
 
-        driver.get("https://zbroia.com.ua/shop/category/nozhi-i-instrumenty/nozhi-skladnye-3879");
-        driver.manage().window().maximize();
-        Assert.assertEquals("Складные ножи — Интернет-магазин ZBROIA", driver.getTitle());
+        goToFoldingKnives();
 
-        foldingKnivesPage.catalogToolbar.selectNumberOfItemPerPage(CatalogToolbar.NumberOfItem.NUMBER_48);
-        for (int i = 0; i < 3 ; i++) {
-            knife = foldingKnivesPage.getKnife();
+        foldingKnivesPage.catalogToolbar.selectNumberOfItemPerPage(CatalogToolbar.NumberOfItem.NUMBER_12);
+        List<KnifeTile> knifeList = foldingKnivesPage.getKnifeList();
+        for (int i = 0; i < 5; i++) {
+            knife = knifeList.get(random.nextInt(knifeList.size()-1));
+            knifeList.remove(knife);
             shoppingList.add(knife.getKnifeName());
             foldingKnivesPage
                     .buyKnifeFromList(knife)
@@ -69,6 +73,15 @@ public class KnivesTest extends BaseTest {
                 .checkoutListByName(shoppingList)
                 .clickCheckout();
 
+    }
+
+    @Test
+    @Description (value = "The test buys knife by name")
+    public void testByKnifeByName() {
+        FoldingKnivesPage foldingKnivesPage = new FoldingKnivesPage(driver);
+        goToFoldingKnives();
+        List<KnifeTile> knifeList = foldingKnivesPage.getKnifeList();
+        foldingKnivesPage.buyKnifeByName(knifeList, "Cold Steel FGX Balisong Tanto");
     }
 
 }

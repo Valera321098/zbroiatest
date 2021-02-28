@@ -40,12 +40,21 @@ public class FoldingKnivesPage extends BasePage {
         return new CartWindow(driver);
     }
 
+    public CartWindow buyKnifeByName(List<KnifeTile> knifeList,  String name)  {
+
+        KnifeTile knife = knifeList.stream().filter(x -> x.getKnifeName().contains(name)).findAny().orElse(null);
+        System.out.println(knife.getKnifeName());
+        clickElement(knife.getBuyButton());
+        return new CartWindow(driver);
+
+    }
+
     public int getKnivesListSize(){
         return knivesList.size();
     }
 
-    public KnifeTile getKnife() {
-        List<KnifeTile> listKnife = getListOfKnives();
+    public KnifeTile getRandomKnife() {
+        List<KnifeTile> listKnife = getKnifeList();
         Random random = new Random();
         return listKnife.get(random.nextInt(listKnife.size()-1));
     }
@@ -55,7 +64,7 @@ public class FoldingKnivesPage extends BasePage {
         return new ViewKnifePage(driver, knife.getKnifeName());
     }
 
-    public List<KnifeTile> getListOfKnives(){
+    public List<KnifeTile> getKnifeList(){
         return driver.findElements(By.cssSelector(".product-cut ")).stream().map(mapTile()).collect(Collectors.toList());
     }
 
@@ -64,8 +73,10 @@ public class FoldingKnivesPage extends BasePage {
                 .knifeName(tile.findElement(By.cssSelector(".product-cut__title-link")).getText())
                 .viewLink(tile.findElement(By.cssSelector(".product-cut__title-link")))
                 .price(tile.findElement(By.cssSelector(".product-price__item-value")).getText())
-                .buyButton(tile.findElement(By.cssSelector(".product-buy")))
+                .buyButton(tile.findElement(By.cssSelector(".product-cut-buy__btn.product-cut-buy__btn--buy")))
+                .inCartButton(tile.findElement(By.cssSelector(".product-cut-buy__btn.product-cut-buy__btn--in-cart")))
                 .build();
     }
+
 }
 

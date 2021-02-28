@@ -13,4 +13,5 @@ public class KnifeTile {
     String price;
     WebElement viewLink;
     WebElement buyButton;
+    WebElement inCartButton;
 }
