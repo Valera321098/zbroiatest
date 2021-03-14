@@ -1,9 +1,10 @@
-import entities.KnifeTile;
+import entities.GoodsInCart;
+import entities.GoodsTile;
 import io.qameta.allure.Description;
 import moduls.CatalogToolbar;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import pages.FoldingKnivesPage;
-import org.junit.Assert;
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,34 +12,16 @@ import java.util.Random;
 
 public class KnivesTest extends BaseTest {
 
+
+    @Description(value = "We can make sure that user can buys one knife from list and verifies that it is in the cart")
     @Test
-    @Description (value = "The test login, buys knife 'Mr. Blade Cosmo Green Stonewash' and check that it is in the cart")
-    public void chooseAndBuyFoldingKnife() {
-        FoldingKnivesPage foldingKnivesPage = new FoldingKnivesPage(driver);
-
-        login();
-
-        foldingKnivesPage = catalog.chooseKnifeMenu().chooseFoldingKnives();
-        foldingKnivesPage.catalogToolbar.selectCatalogSort(CatalogToolbar.CatalogSort.PRICE_DESC);
-        foldingKnivesPage
-                .chooseKnife()
-                .clickBuyBtn()
-                .isCartWindowDisplayed()
-                .goodsInCart(cartWindow.getBoughtKnife())
-                .clickCheckout()
-                .isCheckoutPageDisplayed();
-    }
-
-    @Test
-    @Description (value = "The test buys one random knife from list and verifies that it is in the cart")
     public void buySingleKnife() {
         FoldingKnivesPage foldingKnivesPage = new FoldingKnivesPage(driver);
         List<String> list = new ArrayList<>();
 
         goToFoldingKnives();
-
         foldingKnivesPage.catalogToolbar.selectNumberOfItemPerPage(CatalogToolbar.NumberOfItem.NUMBER_12);
-        KnifeTile knife = foldingKnivesPage.getRandomKnife();
+        GoodsTile knife = foldingKnivesPage.getRandomKnife();
         foldingKnivesPage
                 .chooseKnifeFromList(knife)
                 .checkoutKnife()
@@ -47,24 +30,22 @@ public class KnivesTest extends BaseTest {
     }
 
     @Test
-    @Description (value = "The test buys several random knives from list and verifies that its are in the cart")
+    @Description(value = "We can make sure that user can buys several random knives from list and verifies that its are in the cart")
     public void buySeveralKnives() {
-
         FoldingKnivesPage foldingKnivesPage = new FoldingKnivesPage(driver);
         List<String> shoppingList = new ArrayList<>();
-        KnifeTile knife;
+        GoodsTile knife;
         Random random = new Random();
 
         goToFoldingKnives();
-
         foldingKnivesPage.catalogToolbar.selectNumberOfItemPerPage(CatalogToolbar.NumberOfItem.NUMBER_12);
-        List<KnifeTile> knifeList = foldingKnivesPage.getKnifeList();
-        for (int i = 0; i < 5; i++) {
-            knife = knifeList.get(random.nextInt(knifeList.size()-1));
+        List<GoodsTile> knifeList = foldingKnivesPage.getKnifeList();
+        for (int i = 0; i < 4; i++) {
+            knife = knifeList.get(random.nextInt(knifeList.size() - 1));
             knifeList.remove(knife);
-            shoppingList.add(knife.getKnifeName());
+            shoppingList.add(knife.getGoodsName());
             foldingKnivesPage
-                    .buyKnifeFromList(knife)
+                    .buyKnifeByTile(knife)
                     .clickContinueShopping();
         }
         header.openCart();
@@ -72,16 +53,50 @@ public class KnivesTest extends BaseTest {
                 .isCartWindowDisplayed()
                 .checkoutListByName(shoppingList)
                 .clickCheckout();
-
     }
 
     @Test
-    @Description (value = "The test buys knife by name")
-    public void testByKnifeByName() {
+    @Description(value = "The test buys knife by name")
+    public void byKnifeByName() {
         FoldingKnivesPage foldingKnivesPage = new FoldingKnivesPage(driver);
         goToFoldingKnives();
-        List<KnifeTile> knifeList = foldingKnivesPage.getKnifeList();
+        List<GoodsTile> knifeList = foldingKnivesPage.getKnifeList();
         foldingKnivesPage.buyKnifeByName(knifeList, "Cold Steel FGX Balisong Tanto");
+    }
+
+    @Test
+    @Description(value = "Make sure that user can delete goods from cart")
+    public void deleteItemFromCart() {
+        FoldingKnivesPage foldingKnivesPage = new FoldingKnivesPage(driver);
+        List<String> shoppingList = new ArrayList<>();
+        goToFoldingKnives();
+        foldingKnivesPage.catalogToolbar.selectNumberOfItemPerPage(CatalogToolbar.NumberOfItem.NUMBER_12);
+        List<GoodsTile> knifeList = foldingKnivesPage.getKnifeList();
+
+        knifeList.stream().limit(3).forEach(x -> {
+            shoppingList.add(x.getGoodsName());
+            foldingKnivesPage
+                    .buyKnifeByTile(x)
+                    .clickContinueShopping();
+        });
+        header.openCart();
+        cartWindow
+                .isCartWindowDisplayed()
+                .checkoutListByName(shoppingList)
+                .clickDeleteButton(1);
+    }
+
+    @Test
+    @Description(value = "Make sure that user can click 'In Cart' button and goods is in the cart")
+    public void clickInCardButton() {
+        FoldingKnivesPage foldingKnivesPage = new FoldingKnivesPage(driver);
+        goToFoldingKnives();
+        List<GoodsTile>  knivesList = foldingKnivesPage.getKnifeList();
+        GoodsTile knife = knivesList.stream().findAny().orElse(null);
+        foldingKnivesPage
+                .buyKnifeByTile(knife)
+                .clickContinueShopping();
+        foldingKnivesPage.clickInCartButton(knife);
     }
 
 }

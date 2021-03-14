@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -13,6 +14,7 @@ public class CheckoutPage extends BasePage {
     @FindBy(xpath = "//a[@href=\"https://zbroia.com.ua/shop/product/nozh-mr-blade-cosmo-sleipner-green-s-w\"]")
     private WebElement knife;
 
+    @Step("is checkout page displayed")
     public boolean isCheckoutPageDisplayed() {
         if (driver.getTitle().equals("Корзина")) {
             return true;

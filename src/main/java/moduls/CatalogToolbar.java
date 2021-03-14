@@ -1,5 +1,6 @@
 package moduls;
 
+import io.qameta.allure.Step;
 import pages.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -49,11 +50,13 @@ public class CatalogToolbar extends BasePage {
     @FindBy(id="catalog-per-page")
     private WebElement catalogNumberOfItemPerPage;
 
+    @Step("Select sort goods catalog")
     public void selectCatalogSort(CatalogSort catalogSort) {
         Select select = new Select(catalogSortBy);
         select.selectByValue(catalogSort.getAction());
     }
 
+    @Step("Select number of item per page")
     public void selectNumberOfItemPerPage(NumberOfItem numbrOfItem) {
         Select select = new Select(catalogNumberOfItemPerPage);
         select.selectByValue(numbrOfItem.getAction());

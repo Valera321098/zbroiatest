@@ -1,17 +1,16 @@
 import moduls.Catalog;
 import moduls.Footer;
 import moduls.Header;
+import org.junit.jupiter.api.*;
 import pages.CartWindow;
 import settings.TestConfig;
 import org.aeonbits.owner.ConfigFactory;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 
 import java.util.concurrent.TimeUnit;
 
+//@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class BaseTest {
     public ChromeDriver driver;
     public Header header;
@@ -20,9 +19,10 @@ public class BaseTest {
     public TestConfig testConfig;
     public CartWindow cartWindow;
 
-    @Before
+
+    @BeforeEach
     public void setupDriver() {
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/drivers/chromedriver87.exe");
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/drivers/chromedriver88.exe");
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
@@ -33,13 +33,12 @@ public class BaseTest {
         testConfig = ConfigFactory.create(TestConfig.class);
     }
 
-    @After
+    @AfterEach
     public void closeDriver() {
-//        driver.quit();
+        driver.quit();
     }
 
     public BaseTest login() {
-
         driver.get(testConfig.baseUrl());
         driver.manage().window().maximize();
         header
@@ -47,14 +46,14 @@ public class BaseTest {
                 .inputLogin(testConfig.email())
                 .inputPassword(testConfig.password())
                 .submitLogin();
-        Assert.assertTrue(footer.isLogined());
+
+        Assertions.assertTrue(footer.isLogined());
         return this;
     }
 
     public void goToFoldingKnives() {
         driver.get("https://zbroia.com.ua/shop/category/nozhi-i-instrumenty/nozhi-skladnye-3879");
         driver.manage().window().maximize();
-        Assert.assertEquals("Складные ножи — Интернет-магазин ZBROIA", driver.getTitle());
     }
 
 }

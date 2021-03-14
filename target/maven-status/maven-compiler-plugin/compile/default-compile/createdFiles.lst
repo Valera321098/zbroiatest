@@ -1,0 +1,16 @@
+entities\GoodsInCart$GoodsInCartBuilder.class
+moduls\CatalogToolbar.class
+pages\BasePage.class
+pages\FoldingKnivesPage.class
+settings\TestConfig.class
+pages\CartWindow.class
+moduls\Header.class
+entities\GoodsTile.class
+entities\GoodsInCart.class
+entities\GoodsTile$GoodsTileBuilder.class
+moduls\Catalog.class
+pages\ViewGoodsPage.class
+moduls\Footer.class
+moduls\CatalogToolbar$NumberOfItem.class
+pages\CheckoutPage.class
+moduls\CatalogToolbar$CatalogSort.class
